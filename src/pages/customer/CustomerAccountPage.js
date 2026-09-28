@@ -77,4 +77,12 @@ export class CustomerAccountPage {
   async assertWithdrawNoBalanceErrorMessageIsVisible() {
     await expect(this.withdrawNoBalanceErrorMessage).toBeVisible();
   }
+
+  async selectAccountByIndex(index) {
+    await this.accountIdDropDown.selectOption({ index });
+  }
+
+  async getSelectedAccountNumber() {
+    return (await this.accountIdDropDown.locator('option:checked').textContent()).trim();
+  }
 }

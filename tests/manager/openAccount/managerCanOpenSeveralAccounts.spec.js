@@ -25,8 +25,8 @@ test.beforeEach(async ({ page }) => {
   await addCustomerPage.reload();
 });
 
-test('Assert manager can open account', async ({ page }) => {
-
+test('Assert manager can open several accounts for one customer', async ({ page }) => {
+  
   const bankManagerMainPage = new BankManagerMainPage(page);
   const openAccountPage = new OpenAccountPage(page);
   const customersListPage = new CustomersListPage(page);
@@ -36,7 +36,13 @@ test('Assert manager can open account', async ({ page }) => {
   await openAccountPage.selectCurrency('Dollar');
   await openAccountPage.clickProcessButton();
   await openAccountPage.reload();
+
+  await openAccountPage.selectCustomer(`${firstName} ${lastName}`);
+  await openAccountPage.selectCurrency('Pound');
+  await openAccountPage.clickProcessButton();
+  await openAccountPage.reload();
+
   await bankManagerMainPage.clickCustomersButton();
 
-  await customersListPage.assertLastRowAccountNumberIsNotEmpty();
+  await customersListPage.assertLastRowHasTwoAccountNumbers();
 });
